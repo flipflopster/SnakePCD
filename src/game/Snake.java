@@ -53,13 +53,15 @@ public abstract class Snake extends Thread implements Serializable{
 
 		return coordinates;
 	}	
-	protected void doInitialPositioning() {
+	protected void doInitialPositioning() throws Exception {
 		// Random position on the first column. 
 		// At startup, snake occupies a single cell
-		int posX = 0;
-		int posY = (int) (Math.random() * Board.NUM_ROWS);
-		BoardPosition at = new BoardPosition(posX, posY);
+		LinkedList<Cell> emptyCells = this.board.getEmptyCellsList(0);
+		if(emptyCells.size() == 0)
+			throw new Exception("Board column 0 is full.");
+		int cellY = (int) (Math.random() * emptyCells.size());
 		
+		BoardPosition at = emptyCells.get(cellY).getPosition();
 		try {
 			board.getCell(at).request(this);
 		} catch (InterruptedException e1) {

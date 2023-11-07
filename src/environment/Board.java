@@ -117,14 +117,24 @@ public abstract class Board extends Observable {
 	
 	public abstract void handleKeyPress(int keyCode);
 
-	public abstract void handleKeyRelease();
-	
-	
-	
+	public abstract void handleKeyRelease();	
 
 	public void addSnake(Snake snake) {
 		snakes.add(snake);
 	}
-
+	
+	public LinkedList<Cell> getEmptyCellsList(int column) {
+		// TODO Auto-generated method stub
+		Cell[] cellarr = this.cells[column];
+		LinkedList<Cell> cellLst = new LinkedList<Cell>();
+		
+		for (int i = 0; i != cellarr.length; i++) {
+			Cell c = cellarr[i];
+			if(!c.isOcupied())
+				cellLst.add(c);
+		}
+		
+		return cellLst;
+	}
 
 }

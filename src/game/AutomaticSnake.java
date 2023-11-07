@@ -19,7 +19,12 @@ public class AutomaticSnake extends Snake {
 
 	@Override
 	public void run() {
-		doInitialPositioning();
+		try {
+			doInitialPositioning();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.err.println("initial size:"+cells.size());
 		try {
 			cells.getLast().request(this);
