@@ -123,6 +123,7 @@ public abstract class Board extends Observable {
 		snakes.add(snake);
 	}
 	
+	// Metodo auxiliar para a colocacao das snakes.
 	public LinkedList<Cell> getEmptyCellsList(int column) {
 		// TODO Auto-generated method stub
 		Cell[] cellarr = this.cells[column];
