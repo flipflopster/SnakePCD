@@ -22,7 +22,10 @@ public class Cell {
 	public GameElement getGameElement() {
 		return gameElement;
 	}
-
+	
+	public String toString() {
+		return position.toString();
+	}
 
 	public Cell(BoardPosition position) {
 		super();

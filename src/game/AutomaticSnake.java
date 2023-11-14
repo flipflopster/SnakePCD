@@ -32,6 +32,7 @@ public class AutomaticSnake extends Snake {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		//TODO: automatic movement
 	}
 	
