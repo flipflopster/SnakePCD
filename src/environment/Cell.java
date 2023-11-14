@@ -43,12 +43,14 @@ public class Cell {
 	}
 
 	public void release() {
-		//TODO
+		ocuppyingSnake=null;
 	}
 
 	public boolean isOcupiedBySnake() {
 		return ocuppyingSnake!=null;
 	}
+	
+	
 
 
 	public  void setGameElement(GameElement element) {

@@ -8,6 +8,7 @@ import javax.net.ssl.StandardConstants;
 import environment.LocalBoard;
 import game.Server;
 
+
 public class Main {
 	public static void main(String[] args) {
 		LocalBoard board=new LocalBoard();

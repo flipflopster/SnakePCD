@@ -42,7 +42,10 @@ public abstract class Snake extends Thread implements Serializable{
 		return cells;
 	}
 	protected void move(Cell cell) throws InterruptedException {
-		// TODO
+		cell.request(this);
+		cells.add(cell);
+		getBoard().setChanged();
+		
 	}
 	
 	public LinkedList<BoardPosition> getPath() {
