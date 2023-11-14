@@ -31,11 +31,8 @@ public class AutomaticSnake extends Snake {
 		System.err.println("initial size:"+cells.size());
 		while(true) {
 		try {
-			System.out.println(cells);
-			System.out.println(cells.size());
 			move(this.getBoard().getCell(getNextMoveDumb()));
 			if(cells.size() == size) {
-				System.err.println(cells.get(0));
 				cells.get(0).release();
 				cells.remove(0);
 			}
@@ -60,21 +57,24 @@ public class AutomaticSnake extends Snake {
 		List<BoardPosition> adjacentMoves = getBoard().getNeighboringPositions(cells.getLast());
 		Iterator itr = adjacentMoves.iterator(); 
 		List<BoardPosition> possibleMoves= new ArrayList<BoardPosition>();
-		for(int i=0; i<adjacentMoves.size();i++) {
-			
-			if(!this.getBoard().getCell(adjacentMoves.get(i)).isOcupied() );
-				possibleMoves.add(adjacentMoves.get(i));
-		}
+//		for(int i=0; i<adjacentMoves.size();i++) {
+//			
+//			if(!this.getBoard().getCell(adjacentMoves.get(i)).isOcupied() );
+//				possibleMoves.add(adjacentMoves.get(i));
+//		}
 
 		
 		BoardPosition goal = this.getBoard().getGoalPosition();
 		BoardPosition move = adjacentMoves.get(0);
 		
-		for(int i=0; i<possibleMoves.size();i++) {
-			if(possibleMoves.get(i).distanceTo(goal)<move.distanceTo(goal))
-				move=possibleMoves.get(i);
+//		for(int i=0; i<possibleMoves.size();i++) {
+//			if(possibleMoves.get(i).distanceTo(goal)<move.distanceTo(goal))
+//				move=possibleMoves.get(i);
+//		}
+		for(int i=0; i<adjacentMoves.size();i++) {
+			if(adjacentMoves.get(i).distanceTo(goal)<move.distanceTo(goal))
+				move=adjacentMoves.get(i);
 		}
-
 		return move;
 		
 	}
