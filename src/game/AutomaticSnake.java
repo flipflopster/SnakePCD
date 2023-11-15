@@ -2,7 +2,7 @@ package game;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,14 +55,13 @@ public class AutomaticSnake extends Snake {
 	
 	public BoardPosition getNextMoveDumb(){
 		List<BoardPosition> adjacentMoves = getBoard().getNeighboringPositions(cells.getLast());
-		Iterator itr = adjacentMoves.iterator(); 
-		List<BoardPosition> possibleMoves= new ArrayList<BoardPosition>();
+		List<BoardPosition> possibleMoves = new ArrayList<BoardPosition>();
+		List<Cell> snakeBody = getCells();
 //		for(int i=0; i<adjacentMoves.size();i++) {
 //			
 //			if(!this.getBoard().getCell(adjacentMoves.get(i)).isOcupied() );
 //				possibleMoves.add(adjacentMoves.get(i));
 //		}
-
 		
 		BoardPosition goal = this.getBoard().getGoalPosition();
 		BoardPosition move = adjacentMoves.get(0);
@@ -71,10 +70,12 @@ public class AutomaticSnake extends Snake {
 //			if(possibleMoves.get(i).distanceTo(goal)<move.distanceTo(goal))
 //				move=possibleMoves.get(i);
 //		}
-		for(int i=0; i<adjacentMoves.size();i++) {
-			if(adjacentMoves.get(i).distanceTo(goal)<move.distanceTo(goal))
-				move=adjacentMoves.get(i);
-		}
+		
+		for (BoardPosition bp : new HashSet<BoardPosition>(adjacentMoves))
+			if(bp.distanceTo(goal) < move.distanceTo(goal))
+				for(Cell c : snakeBody)
+					if(!bp.equals(c.getPosition()))
+						move = bp;
 		return move;
 		
 	}

@@ -17,7 +17,7 @@ import game.AutomaticSnake;
 public class Cell {
 	private BoardPosition position;
 	private Snake ocuppyingSnake = null;
-	private GameElement gameElement=null;
+	private GameElement gameElement = null;
 	
 	public GameElement getGameElement() {
 		return gameElement;
