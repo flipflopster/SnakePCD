@@ -39,18 +39,15 @@ public class Cell {
 
 	public synchronized void request(Snake snake) throws InterruptedException {
 		//TODO coordination and mutual exclusion
-		while(isOcupied()) {
-			queued = true;
+		while(isOcupied())
 			this.wait();
-		}
 		ocuppyingSnake = snake;
 		queued = false;
 	}
 
-	public synchronized void release() throws InterruptedException {
+	public synchronized void release() {
 		ocuppyingSnake = null;
-		if(queued)
-			this.notify();
+		this.notify();
 	}
 
 	public boolean isOcupiedBySnake() {

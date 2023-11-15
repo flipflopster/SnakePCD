@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,6 +16,7 @@ import javax.swing.JFrame;
 
 import environment.Board;
 import environment.LocalBoard;
+import game.Snake;
 /**
  *  Class to create and configure GUI.
  *  Only the listener to the button should be edited, see TODO below.
@@ -45,12 +48,15 @@ public class SnakeGui implements Observer {
 		boardGui.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
 		frame.add(boardGui,BorderLayout.CENTER);
 
-		JButton resetObstaclesButton=new JButton("Reset snakes' directions");
+		JButton resetObstaclesButton = new JButton("Reset snakes' directions");
 		resetObstaclesButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
+				LinkedList<Snake> snakes = board.getSnakes();
+				for(Snake s : new HashSet<Snake>(snakes))
+					s.interrupt();
 			}
 				
 		});

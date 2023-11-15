@@ -29,13 +29,18 @@ public class AutomaticSnake extends Snake {
 			e1.printStackTrace();
 		}
 		System.err.println("initial size:" + cells.size());
-		while(true) {
+		while(size != DELTA_SIZE) {
 			try {
 				move(this.getBoard().getCell(getNextMoveDumb()));
 				//Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 				Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
+				try {
+					move(this.getBoard().getCell(getNextPossibleMove()));
+					Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 //		try {
@@ -48,9 +53,21 @@ public class AutomaticSnake extends Snake {
 		//TODO: automatic movement
 	}
 	
+	private BoardPosition getNextPossibleMove() {
+		List<BoardPosition> adjacentMoves = getBoard().getNeighboringPositions(cells.getLast());
+
+		BoardPosition move = adjacentMoves.get(0);
+		
+		for (BoardPosition bp : new HashSet<BoardPosition>(adjacentMoves))
+			if(!getBoard().getCell(bp).isOcupied())
+					move = bp;
+		
+		return move;
+	}
+
 	public BoardPosition getNextMoveDumb(){
 		List<BoardPosition> adjacentMoves = getBoard().getNeighboringPositions(cells.getLast());
-		List<BoardPosition> possibleMoves = new ArrayList<BoardPosition>();
+		// List<BoardPosition> possibleMoves = new ArrayList<BoardPosition>();
 		List<Cell> snakeBody = getCells();
 //		for(int i=0; i<adjacentMoves.size();i++) {
 //			
@@ -72,7 +89,6 @@ public class AutomaticSnake extends Snake {
 					if(!bp.equals(c.getPosition()))
 						move = bp;
 		return move;
-		
 	}
 	
 	public void moveDumb(){

@@ -3,6 +3,8 @@ package game;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+import javax.naming.directory.InvalidAttributesException;
+
 import environment.LocalBoard;
 import gui.SnakeGui;
 import environment.Board;
@@ -15,7 +17,7 @@ import environment.Cell;
  *
  */
 public abstract class Snake extends Thread implements Serializable{
-	private static final int DELTA_SIZE = 10;
+	protected static final int DELTA_SIZE = 10;
 	protected LinkedList<Cell> cells = new LinkedList<Cell>();
 	protected int size = 5;
 	private int id;
@@ -65,15 +67,16 @@ public abstract class Snake extends Thread implements Serializable{
 		return coordinates;
 	}
 	
-	protected void doInitialPositioning() throws Exception {
+	protected void doInitialPositioning() throws InvalidAttributesException {
 		// Random position on the first column. 
 		// At startup, snake occupies a single cell
 		LinkedList<Cell> emptyCells = this.board.getEmptyCellsList(0);
 		if(emptyCells.size() == 0)
-			throw new Exception("Board column 0 is full.");
+			throw new InvalidAttributesException("Board column 0 is full.");
 		int cellY = (int) (Math.random() * emptyCells.size());
 		
 		BoardPosition at = emptyCells.get(cellY).getPosition();
+		
 		try {
 			board.getCell(at).request(this);
 			getBoard().setChanged();
@@ -81,6 +84,7 @@ public abstract class Snake extends Thread implements Serializable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		cells.add(board.getCell(at));
 		System.err.println("Snake " + getIdentification() + " starting at:" + getCells().getLast());		
 	}
