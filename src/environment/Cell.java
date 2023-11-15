@@ -18,6 +18,7 @@ public class Cell {
 	private BoardPosition position;
 	private Snake ocuppyingSnake = null;
 	private GameElement gameElement = null;
+	private boolean queued = false;
 	
 	public GameElement getGameElement() {
 		return gameElement;
@@ -36,26 +37,29 @@ public class Cell {
 		return position;
 	}
 
-	public void request(Snake snake)
-			throws InterruptedException {
+	public synchronized void request(Snake snake) throws InterruptedException {
 		//TODO coordination and mutual exclusion
-		ocuppyingSnake=snake;
+		while(isOcupied()) {
+			queued = true;
+			this.wait();
+		}
+		ocuppyingSnake = snake;
+		queued = false;
 	}
 
-	public void release() {
-		ocuppyingSnake=null;
+	public synchronized void release() throws InterruptedException {
+		ocuppyingSnake = null;
+		if(queued)
+			this.notify();
 	}
 
 	public boolean isOcupiedBySnake() {
-		return ocuppyingSnake!=null;
+		return ocuppyingSnake != null;
 	}
 	
-	
-
-
-	public  void setGameElement(GameElement element) {
+	public void setGameElement(GameElement element) {
 		// TODO coordination and mutual exclusion
-		gameElement=element;
+		gameElement = element;
 
 	}
 
@@ -69,14 +73,16 @@ public class Cell {
 	}
 
 
-	public  Goal removeGoal() {
+	public synchronized Goal removeGoal() {
 		// TODO
-		return null;
+		Goal ge = (Goal)gameElement;
+		gameElement = null;
+		return ge;
 	}
+	
 	public void removeObstacle() {
 	//TODO
 	}
-
 
 	public Goal getGoal() {
 		return (Goal)gameElement;

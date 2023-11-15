@@ -49,16 +49,16 @@ public abstract class Board extends Observable {
 	}
 	
 	public void addGameElement(GameElement gameElement) {
-		boolean placed=false;
+		boolean placed = false;
 		while(!placed) {
-			BoardPosition pos=getRandomPosition();
+			BoardPosition pos = getRandomPosition();
 			if(!getCell(pos).isOcupied() && !getCell(pos).isOcupiedByGoal()) {
 				getCell(pos).setGameElement(gameElement);
 				if(gameElement instanceof Goal) {
 					setGoalPosition(pos);
-//					System.out.println("Goal placed at:"+pos);
+//					System.out.println("Goal placed at:" + pos);
 				}
-				placed=true;
+				placed = true;
 			}
 		}
 	}
@@ -66,19 +66,17 @@ public abstract class Board extends Observable {
 	public List<BoardPosition> getNeighboringPositions(Cell cell) {
 		ArrayList<BoardPosition> possibleCells=new ArrayList<BoardPosition>();
 		BoardPosition pos=cell.getPosition();
-		if(pos.x>0)
+		if(pos.x > 0)
 			possibleCells.add(pos.getCellLeft());
-		if(pos.x<NUM_COLUMNS-1)
+		if(pos.x < NUM_COLUMNS-1)
 			possibleCells.add(pos.getCellRight());
-		if(pos.y>0)
+		if(pos.y > 0)
 			possibleCells.add(pos.getCellAbove());
-		if(pos.y<NUM_ROWS-1)
+		if(pos.y < NUM_ROWS-1)
 			possibleCells.add(pos.getCellBelow());
 		return possibleCells;
 
-	}
-
-	
+	}	
 
 	protected Goal addGoal() {
 		Goal goal=new Goal(this);
@@ -101,7 +99,6 @@ public abstract class Board extends Observable {
 		return snakes;
 	}
 
-
 	@Override
 	public void setChanged() {
 		super.setChanged();
@@ -112,7 +109,6 @@ public abstract class Board extends Observable {
 		return obstacles;
 	}
 
-	
 	public abstract void init(); 
 	
 	public abstract void handleKeyPress(int keyCode);
@@ -125,7 +121,6 @@ public abstract class Board extends Observable {
 	
 	// Metodo auxiliar para a colocacao das snakes.
 	public LinkedList<Cell> getEmptyCellsList(int column) {
-		// TODO Auto-generated method stub
 		Cell[] cellarr = this.cells[column];
 		LinkedList<Cell> cellLst = new LinkedList<Cell>();
 		

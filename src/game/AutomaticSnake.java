@@ -28,20 +28,15 @@ public class AutomaticSnake extends Snake {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.err.println("initial size:"+cells.size());
+		System.err.println("initial size:" + cells.size());
 		while(true) {
-		try {
-			move(this.getBoard().getCell(getNextMoveDumb()));
-			if(cells.size() == size) {
-				cells.get(0).release();
-				cells.remove(0);
+			try {
+				move(this.getBoard().getCell(getNextMoveDumb()));
+				//Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
+				Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
-			//Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
-			Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		}
 //		try {
 //			cells.getLast().request(this);
