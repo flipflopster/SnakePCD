@@ -17,14 +17,15 @@ public class Goal extends GameElement  {
 		return value;
 	}
 	
-	public void incrementValue() throws InterruptedException {
+	public void incrementValue() {
 		//TODO
 		value++;
 	}
 
 	public int captureGoal() {
 		//TODO
-		board.addGameElement(new Goal(board));
-		return getValue();
+		incrementValue();
+		board.addGameElement(this);
+		return getValue() - 1;
 	}
 }

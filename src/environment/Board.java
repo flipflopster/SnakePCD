@@ -2,6 +2,7 @@ package environment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
@@ -19,10 +20,11 @@ public abstract class Board extends Observable {
 	public static final int NUM_COLUMNS = 30;
 	public static final int NUM_ROWS = 30;
 	protected LinkedList<Snake> snakes = new LinkedList<Snake>();
-	private LinkedList<Obstacle> obstacles= new LinkedList<Obstacle>();
+	private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 	protected boolean isFinished;
 
 	public Board() {
+	    isFinished = false;
 		cells = new Cell[NUM_COLUMNS][NUM_ROWS];
 		for (int x = 0; x < NUM_COLUMNS; x++) {
 			for (int y = 0; y < NUM_ROWS; y++) {
@@ -55,12 +57,22 @@ public abstract class Board extends Observable {
 			if(!getCell(pos).isOcupied() && !getCell(pos).isOcupiedByGoal()) {
 				getCell(pos).setGameElement(gameElement);
 				if(gameElement instanceof Goal) {
-					setGoalPosition(pos);
+					if(((Goal) gameElement).getValue() <= 9)
+						setGoalPosition(pos);
+					else endGame();
 //					System.out.println("Goal placed at:" + pos);
 				}
 				placed = true;
 			}
 		}
+	}
+
+	private void endGame() {
+		isFinished = true;
+		getCell(goalPosition).removeGoal();
+		for(Snake s : new HashSet<Snake>(getSnakes()))
+			s.interrupt();
+		setChanged();
 	}
 
 	public List<BoardPosition> getNeighboringPositions(Cell cell) {
@@ -118,6 +130,9 @@ public abstract class Board extends Observable {
 	public void addSnake(Snake snake) {
 		snakes.add(snake);
 	}
+	
+	// Metodo para as cobras manejarem as interrupcoes.
+	public boolean isFinished() { return isFinished; }
 	
 	// Metodo auxiliar para a colocacao das snakes.
 	public LinkedList<Cell> getEmptyCellsList(int column) {

@@ -22,25 +22,26 @@ public class AutomaticSnake extends Snake {
 
 	@Override
 	public void run() {
-		try {
-			doInitialPositioning();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		try { doInitialPositioning(); } catch (Exception e1) { e1.printStackTrace(); }
+		
 		System.err.println("initial size:" + cells.size());
-		while(size != DELTA_SIZE) {
+		
+		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
 			try {
 				move(this.getBoard().getCell(getNextMoveDumb()));
 				//Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 				Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e1) {
-				try {
-					move(this.getBoard().getCell(getNextPossibleMove()));
-					Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if(!getBoard().isFinished()) {
+					try {
+						move(this.getBoard().getCell(getNextPossibleMove()));
+						Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
+				else e1.printStackTrace();
 			}
 		}
 //		try {
@@ -69,6 +70,19 @@ public class AutomaticSnake extends Snake {
 		List<BoardPosition> adjacentMoves = getBoard().getNeighboringPositions(cells.getLast());
 		// List<BoardPosition> possibleMoves = new ArrayList<BoardPosition>();
 		List<Cell> snakeBody = getCells();
+		
+		List<BoardPosition> noGood = new LinkedList<BoardPosition>();
+		
+		for(BoardPosition bp : adjacentMoves)
+			for(Cell c : snakeBody)
+				if(bp.equals(c.getPosition())) {
+					noGood.add(bp);
+					break;
+				}
+		
+		for(BoardPosition bp : noGood)
+			adjacentMoves.remove(bp);
+		
 //		for(int i=0; i<adjacentMoves.size();i++) {
 //			
 //			if(!this.getBoard().getCell(adjacentMoves.get(i)).isOcupied() );
@@ -83,11 +97,9 @@ public class AutomaticSnake extends Snake {
 //				move=possibleMoves.get(i);
 //		}
 		
-		for (BoardPosition bp : new HashSet<BoardPosition>(adjacentMoves))
+		for (BoardPosition bp : adjacentMoves)
 			if(bp.distanceTo(goal) < move.distanceTo(goal))
-				for(Cell c : snakeBody)
-					if(!bp.equals(c.getPosition()))
-						move = bp;
+				move = bp;
 		return move;
 	}
 	
