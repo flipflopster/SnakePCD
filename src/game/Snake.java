@@ -2,6 +2,7 @@ package game;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.naming.directory.InvalidAttributesException;
 
@@ -20,6 +21,7 @@ public abstract class Snake extends Thread implements Serializable{
 	protected static final int DELTA_SIZE = 10;
 	protected LinkedList<Cell> cells = new LinkedList<Cell>();
 	protected int size = 5;
+	protected AtomicInteger sizeA = new AtomicInteger(5);
 	private int id;
 	private Board board;
 	
@@ -46,7 +48,9 @@ public abstract class Snake extends Thread implements Serializable{
 	
 	protected void move(Cell cell) throws InterruptedException {
 		if(cell.isOcupiedByGoal()) {
-			size = size + cell.removeGoal().captureGoal();
+			//size = size + cell.removeGoal().captureGoal();
+			cell.removeGoal().captureGoal();
+			size++;
 		}
 			
 		cell.request(this);

@@ -30,7 +30,6 @@ public class AutomaticSnake extends Snake {
 		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
 			try {
 				move(this.getBoard().getCell(getNextMoveDumb()));
-				//Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 				Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e1) {
 				if(!getBoard().isFinished()) {
@@ -41,7 +40,10 @@ public class AutomaticSnake extends Snake {
 						e.printStackTrace();
 					}
 				}
-				else e1.printStackTrace();
+				else {
+					e1.printStackTrace();
+					System.out.println("joever");
+				}
 			}
 		}
 //		try {
