@@ -10,10 +10,11 @@ import java.util.Observable;
 import game.GameElement;
 import game.Goal;
 import game.Obstacle;
+import game.ObstacleMover;
 import game.Snake;
 
 public abstract class Board extends Observable {
-	protected Cell[][] cells;
+	public Cell[][] cells;
 	private BoardPosition goalPosition;
 	public static final long PLAYER_PLAY_INTERVAL = 100;
 	public static final long REMOTE_REFRESH_INTERVAL = 200;
@@ -21,6 +22,7 @@ public abstract class Board extends Observable {
 	public static final int NUM_ROWS = 30;
 	protected LinkedList<Snake> snakes = new LinkedList<Snake>();
 	private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
+	protected LinkedList<ObstacleMover> movers = new LinkedList<ObstacleMover>();
 	protected boolean isFinished;
 
 	public Board() {
@@ -38,7 +40,7 @@ public abstract class Board extends Observable {
 		return cells[cellCoord.x][cellCoord.y];
 	}
 
-	protected BoardPosition getRandomPosition() {
+	public BoardPosition getRandomPosition() {
 		return new BoardPosition((int) (Math.random() *NUM_ROWS),(int) (Math.random() * NUM_ROWS));
 	}
 

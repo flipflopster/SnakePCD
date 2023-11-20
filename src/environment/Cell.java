@@ -1,6 +1,8 @@
 package environment;
 
 import java.io.Serializable;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.sound.midi.SysexMessage;
 
@@ -19,6 +21,7 @@ public class Cell {
 	private Snake ocuppyingSnake = null;
 	private GameElement gameElement = null;
 	private boolean queued = false;
+	private Lock lock = new ReentrantLock();
 	
 	public GameElement getGameElement() {
 		return gameElement;
@@ -39,10 +42,12 @@ public class Cell {
 
 	public synchronized void request(Snake snake) throws InterruptedException {
 		//TODO coordination and mutual exclusion
+		lock.lock();
 		while(isOcupied())
 			this.wait();
 		ocuppyingSnake = snake;
 		queued = false;
+		lock.unlock();
 	}
 
 	public synchronized void release() {
@@ -56,8 +61,9 @@ public class Cell {
 	
 	public void setGameElement(GameElement element) {
 		// TODO coordination and mutual exclusion
+		lock.lock();
 		gameElement = element;
-
+		lock.unlock();
 	}
 
 	public boolean isOcupied() {
@@ -79,6 +85,7 @@ public class Cell {
 	
 	public void removeObstacle() {
 	//TODO
+		gameElement = null;
 	}
 
 	public Goal getGoal() {
