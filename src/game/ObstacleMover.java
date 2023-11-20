@@ -19,7 +19,7 @@ public class ObstacleMover extends Thread {
 	@Override
 	public void run() {
 
-		if(obstacle.getRemainingMoves()>0) {
+		if(obstacle.getRemainingMoves() > 0) {
 			if(obstacle.getCurrentPosition() != null) {
 				prePosition = obstacle.getCurrentPosition();
 			}
@@ -27,10 +27,11 @@ public class ObstacleMover extends Thread {
 				
 			while(!posPositionOcuppied) {
 				Cell aux = board.getCell(board.getRandomPosition());
-				if(!aux.isOcupied()) {
+				if(!aux.isOcupied() && !aux.isOcupiedByGoal()) {
 					aux.setGameElement(obstacle);
 					board.getCell(prePosition).removeObstacle();
 					posPositionOcuppied = true;
+					board.setChanged();
 				}
 			}
 			obstacle.decrementMoves();

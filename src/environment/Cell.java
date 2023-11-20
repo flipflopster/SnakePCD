@@ -57,7 +57,7 @@ public class Cell {
 		return ocuppyingSnake != null;
 	}
 	
-	public void setGameElement(GameElement element) {
+	public synchronized void setGameElement(GameElement element) {
 		// TODO coordination and mutual exclusion
 		lock.lock();
 		gameElement = element;
@@ -65,7 +65,7 @@ public class Cell {
 	}
 
 	public boolean isOcupied() {
-		return isOcupiedBySnake() || (gameElement!=null && gameElement instanceof Obstacle);
+		return isOcupiedBySnake() || (gameElement != null && gameElement instanceof Obstacle);
 	}
 
 
@@ -76,14 +76,19 @@ public class Cell {
 
 	public synchronized Goal removeGoal() {
 		// TODO
-		Goal ge = (Goal)gameElement;
-		gameElement = null;
-		return ge;
+		Goal ge = null;
+		if(isOcupiedByGoal()) {
+			ge = (Goal)gameElement;
+			gameElement = null;
+			return ge;
+		} else 
+			return ge;
 	}
 	
-	public void removeObstacle() {
+	public synchronized void removeObstacle() {
 	//TODO
 		gameElement = null;
+		this.notify();
 	}
 
 	public Goal getGoal() {
@@ -95,6 +100,16 @@ public class Cell {
 		return (gameElement!=null && gameElement instanceof Goal);
 	}
 	
-	
+	public Cell getBest(Cell c, BoardPosition goalPos) {
+		if(this.getPosition().distanceTo(goalPos) < c.getPosition().distanceTo(goalPos))
+			return this;
+		else if(this.getPosition().distanceTo(goalPos) > c.getPosition().distanceTo(goalPos))
+			return c;
+		else if(this.isOcupied())
+			return c;
+		else if(c.isOcupied())
+			return this;
+		else return this;
+	}
 
 }

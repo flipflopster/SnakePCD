@@ -32,7 +32,7 @@ public class BoardComponent extends JComponent implements KeyListener{
 
 	public BoardComponent(Board board) {
 		this.board = board;
-		obstacleImage=new ImageIcon(getClass().getResource("/obstacle.png")).getImage();
+		obstacleImage = new ImageIcon(getClass().getResource("/obstacle.png")).getImage();
 		// Necessary for key listener
 		setFocusable(true);
 		addKeyListener(this);
@@ -41,7 +41,7 @@ public class BoardComponent extends JComponent implements KeyListener{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		final double CELL_WIDTH=getHeight()/(double)SnakeGui.NUM_ROWS;
+		final double CELL_WIDTH = getHeight()/(double)SnakeGui.NUM_ROWS;
 		//System.err.println("W:"+getWidth()+" H:"+getHeight());
 		for (int x = 0; x < LocalBoard.NUM_COLUMNS; x++) {
 			for (int y = 0; y < LocalBoard.NUM_ROWS; y++) {
@@ -92,10 +92,10 @@ public class BoardComponent extends JComponent implements KeyListener{
 		}
 		for (Snake s : board.getSnakes()) {
 			if (s.getLength() > 0) {
-				g.setColor(new Color(s.getIdentification() * 1000));
+				g.setColor(new Color(s.getIdentification() * 1500000));
 
 				((Graphics2D) g).setStroke(new BasicStroke(5));
-				BoardPosition prevPos=s.getPath().getFirst();
+				BoardPosition prevPos = s.getPath().getFirst();
 				for (BoardPosition coordinate : s.getPath()) {
 					if(prevPos!=null) {
 						g.drawLine((int) Math.round((prevPos.x + .5) * CELL_WIDTH),

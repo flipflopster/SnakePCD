@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.concurrent.ExecutorService;
 
 import game.GameElement;
 import game.Goal;
@@ -20,10 +21,14 @@ public abstract class Board extends Observable {
 	public static final long REMOTE_REFRESH_INTERVAL = 200;
 	public static final int NUM_COLUMNS = 30;
 	public static final int NUM_ROWS = 30;
+	
 	protected LinkedList<Snake> snakes = new LinkedList<Snake>();
+	
+	protected ExecutorService pool;
 	private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 	protected LinkedList<ObstacleMover> movers = new LinkedList<ObstacleMover>();
 	protected boolean isFinished;
+	
 
 	public Board() {
 	    isFinished = false;
@@ -57,23 +62,26 @@ public abstract class Board extends Observable {
 		while(!placed) {
 			BoardPosition pos = getRandomPosition();
 			if(!getCell(pos).isOcupied() && !getCell(pos).isOcupiedByGoal()) {
-				getCell(pos).setGameElement(gameElement);
 				if(gameElement instanceof Goal) {
-					if(((Goal) gameElement).getValue() <= 9)
+					if(((Goal) gameElement).getValue() <= 9) {
+						getCell(pos).setGameElement(gameElement);
 						setGoalPosition(pos);
-					else endGame();
+					} else endGame();
 //					System.out.println("Goal placed at:" + pos);
-				}
+				} else getCell(pos).setGameElement(gameElement);
 				placed = true;
-			}
+			} 
 		}
 	}
 
 	private void endGame() {
 		isFinished = true;
-		getCell(goalPosition).removeGoal();
-		for(Snake s : new HashSet<Snake>(getSnakes()))
+		getCell(getGoalPosition()).removeGoal();
+		for(Snake s : getSnakes())
 			s.interrupt();
+		for(ObstacleMover o : movers)
+			o.interrupt();
+		pool.shutdownNow();
 		setChanged();
 	}
 
@@ -93,7 +101,7 @@ public abstract class Board extends Observable {
 	}	
 
 	protected Goal addGoal() {
-		Goal goal=new Goal(this);
+		Goal goal = new Goal(this);
 		addGameElement( goal);
 		return goal;
 	}
@@ -101,9 +109,9 @@ public abstract class Board extends Observable {
 	protected void addObstacles(int numberObstacles) {
 		// clear obstacle list , necessary when resetting obstacles.
 		getObstacles().clear();
-		while(numberObstacles>0) {
-			Obstacle obs=new Obstacle(this);
-			addGameElement( obs);
+		while(numberObstacles > 0) {
+			Obstacle obs = new Obstacle(this);
+			addGameElement(obs);
 			getObstacles().add(obs);
 			numberObstacles--;
 		}

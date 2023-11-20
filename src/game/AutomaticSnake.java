@@ -16,7 +16,7 @@ import environment.BoardPosition;
 
 public class AutomaticSnake extends Snake {
 	public AutomaticSnake(int id, LocalBoard board) {
-		super(id,board);
+		super(id, board);
 
 	}
 
@@ -69,7 +69,7 @@ public class AutomaticSnake extends Snake {
 			if(!getBoard().getCell(bp).isOcupied())
 					move = bp;
 		
-		return move ;
+		return move;
 	}
 
 	public BoardPosition getNextMoveDumb(){
@@ -103,8 +103,7 @@ public class AutomaticSnake extends Snake {
 //		}
 		
 		for (BoardPosition bp : adjacentMoves)
-			if(bp.distanceTo(goal) < move.distanceTo(goal))
-				move = bp;
+			move = getBoard().getCell(move).getBest(getBoard().getCell(bp), goal).getPosition();
 		return move;
 	}
 	

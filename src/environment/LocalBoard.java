@@ -21,13 +21,11 @@ import game.AutomaticSnake;
  * @author luismota
  *
  */
-public class LocalBoard extends Board{
+public class LocalBoard extends Board {
 	
 	private static final int NUM_SNAKES = 5;
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
-	
-	
 
 	public LocalBoard() {
 		
@@ -38,27 +36,24 @@ public class LocalBoard extends Board{
 
 		addObstacles( NUM_OBSTACLES);
 		for (int i = 0; i < NUM_SIMULTANEOUS_MOVING_OBSTACLES; i++) {
-			for(int j = 0; j<NUM_OBSTACLES; j++) {
+			for(int j = 0; j < NUM_OBSTACLES; j++) {
 				ObstacleMover mover = new ObstacleMover(getObstacles().get(j), this);
 				movers.add(mover);
 			}
 		}
 		
-		Goal goal=addGoal();
+		Goal goal = addGoal();
 //		System.err.println("All elements placed");
 	}
 
 	public void init() {
-		for(Snake s:snakes)
+		for(Snake s : snakes)
 			s.start();
 		// TODO: launch other threads
-		ExecutorService pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
-		for(ObstacleMover s:movers)
+		pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
+		for(ObstacleMover s : movers)
 			pool.execute(s);
-		setChanged();
 	}
-
-	
 
 	@Override
 	public void handleKeyPress(int keyCode) {
