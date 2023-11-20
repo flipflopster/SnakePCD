@@ -42,12 +42,10 @@ public class Cell {
 
 	public synchronized void request(Snake snake) throws InterruptedException {
 		//TODO coordination and mutual exclusion
-		lock.lock();
 		while(isOcupied())
 			this.wait();
 		ocuppyingSnake = snake;
 		queued = false;
-		lock.unlock();
 	}
 
 	public synchronized void release() {

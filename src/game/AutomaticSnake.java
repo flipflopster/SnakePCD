@@ -29,12 +29,15 @@ public class AutomaticSnake extends Snake {
 		
 		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
 			try {
+				
 				move(this.getBoard().getCell(getNextMoveDumb()));
 				Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e1) {
 				if(!getBoard().isFinished()) {
 					try {
-						move(this.getBoard().getCell(getNextPossibleMove()));
+						BoardPosition move = getNextPossibleMove();
+						if( move != null)
+							move(this.getBoard().getCell(move));
 						Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -61,11 +64,12 @@ public class AutomaticSnake extends Snake {
 
 		BoardPosition move = adjacentMoves.get(0);
 		
+		
 		for (BoardPosition bp : new HashSet<BoardPosition>(adjacentMoves))
 			if(!getBoard().getCell(bp).isOcupied())
 					move = bp;
 		
-		return move;
+		return move ;
 	}
 
 	public BoardPosition getNextMoveDumb(){
@@ -93,7 +97,6 @@ public class AutomaticSnake extends Snake {
 		
 		BoardPosition goal = this.getBoard().getGoalPosition();
 		BoardPosition move = adjacentMoves.get(0);
-		
 //		for(int i=0; i<possibleMoves.size();i++) {
 //			if(possibleMoves.get(i).distanceTo(goal)<move.distanceTo(goal))
 //				move=possibleMoves.get(i);
