@@ -52,14 +52,6 @@ public abstract class Snake extends Thread implements Serializable{
 			g.captureGoal();
 			size++;
 		}
-		
-		/*
-		if(cell.isOcupiedByGoal()) {
-			//size = size + cell.removeGoal().captureGoal();
-			cell.removeGoal().captureGoal();
-			size++;
-		}
-		*/
 			
 		cell.request(this);
 		cells.add(cell);

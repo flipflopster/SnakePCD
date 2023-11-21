@@ -99,15 +99,18 @@ public class Cell {
 	}
 	
 	public Cell getBest(Cell c, BoardPosition goalPos) {
+		if(this == null && c == null) return null;
+		if(this == null) return c;
+		if(c == null) return this;
 		if(this.getPosition().distanceTo(goalPos) < c.getPosition().distanceTo(goalPos))
 			return this;
-		else if(this.getPosition().distanceTo(goalPos) > c.getPosition().distanceTo(goalPos))
+		if(this.getPosition().distanceTo(goalPos) > c.getPosition().distanceTo(goalPos))
 			return c;
-		else if(this.isOcupied())
+		if(this.isOcupied())
 			return c;
-		else if(c.isOcupied())
+		if(c.isOcupied())
 			return this;
-		else return this;
+		return this;
 	}
 
 }

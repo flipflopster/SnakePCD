@@ -25,6 +25,7 @@ public abstract class Board extends Observable {
 	protected LinkedList<Snake> snakes = new LinkedList<Snake>();
 	
 	protected ExecutorService pool;
+	public static final int OBSTACLE_MOVE_INTERVAL = 400;
 	private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 	protected LinkedList<ObstacleMover> movers = new LinkedList<ObstacleMover>();
 	protected boolean isFinished;
@@ -46,7 +47,7 @@ public abstract class Board extends Observable {
 	}
 
 	public BoardPosition getRandomPosition() {
-		return new BoardPosition((int) (Math.random() *NUM_ROWS),(int) (Math.random() * NUM_ROWS));
+		return new BoardPosition((int) (Math.random() * NUM_ROWS),(int) (Math.random() * NUM_ROWS));
 	}
 
 	public BoardPosition getGoalPosition() {

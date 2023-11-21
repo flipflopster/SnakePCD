@@ -1,5 +1,6 @@
 package game;
 
+import environment.Board;
 import environment.BoardPosition;
 import environment.Cell;
 import environment.LocalBoard;
@@ -36,11 +37,9 @@ public class ObstacleMover extends Thread {
 			}
 			obstacle.decrementMoves();
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(Board.OBSTACLE_MOVE_INTERVAL);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				System.out.println("teste");
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 		}
 

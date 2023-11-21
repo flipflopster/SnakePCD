@@ -22,41 +22,29 @@ public class AutomaticSnake extends Snake {
 
 	@Override
 	public void run() {
-		
 		try { doInitialPositioning(); } catch (Exception e1) { e1.printStackTrace(); }
 		
 		System.err.println("initial size:" + cells.size());
+		Boolean rb = false;
 		
 		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
+			BoardPosition nextMove= null;
+			
+			if(rb) {
+				nextMove = getNextPossibleMove();
+				rb = false;
+			} else 
+				nextMove = getNextMoveDumb();
+			
 			try {
-				
-				move(this.getBoard().getCell(getNextMoveDumb()));
-				Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
+				if(nextMove != null)
+					move(this.getBoard().getCell(nextMove));
+				Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e1) {
-				if(!getBoard().isFinished()) {
-					try {
-						BoardPosition move = getNextPossibleMove();
-						if( move != null)
-							move(this.getBoard().getCell(move));
-						Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				else {
-					e1.printStackTrace();
-					System.out.println("joever");
-				}
+				rb = true;
 			}
 		}
-//		try {
-//			cells.getLast().request(this);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		//TODO: automatic movement
+		System.out.println("joever");
 	}
 	
 	private BoardPosition getNextPossibleMove() {

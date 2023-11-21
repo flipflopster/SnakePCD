@@ -92,7 +92,7 @@ public class BoardComponent extends JComponent implements KeyListener{
 		}
 		for (Snake s : board.getSnakes()) {
 			if (s.getLength() > 0) {
-				g.setColor(new Color(s.getIdentification() * 1500000));
+				g.setColor(new Color(10000 + (s.getIdentification() - 1) * 1500000));
 
 				((Graphics2D) g).setStroke(new BasicStroke(5));
 				BoardPosition prevPos = s.getPath().getFirst();
