@@ -24,10 +24,12 @@ public abstract class Snake extends Thread implements Serializable{
 	protected AtomicInteger sizeA = new AtomicInteger(5);
 	private int id;
 	private Board board;
+	private boolean resetButton;
 	
 	public Snake(int id,Board board) {
 		this.id = id;
 		this.board = board;
+		this.resetButton = false;
 	}
 
 	public int getSize() {
@@ -71,6 +73,10 @@ public abstract class Snake extends Thread implements Serializable{
 		return coordinates;
 	}
 	
+	public void setReset(Boolean resetVal) { resetButton = resetVal; }
+	
+	protected Boolean getReset() { return resetButton; }
+	
 	protected void doInitialPositioning() throws InvalidAttributesException {
 		// Random position on the first column. 
 		// At startup, snake occupies a single cell
@@ -90,7 +96,7 @@ public abstract class Snake extends Thread implements Serializable{
 		}
 		
 		cells.add(board.getCell(at));
-		System.err.println("Snake " + getIdentification() + " starting at:" + getCells().getLast());		
+		System.out.println("Snake " + getIdentification() + " starting at:" + getCells().getLast());		
 	}
 	
 	public Board getBoard() {

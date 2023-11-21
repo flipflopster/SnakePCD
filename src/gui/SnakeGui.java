@@ -54,9 +54,7 @@ public class SnakeGui implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
-				LinkedList<Snake> snakes = board.getSnakes();
-				for(Snake s : new HashSet<Snake>(snakes))
-					s.interrupt();
+				board.interruptSnakes(true);
 			}
 				
 		});

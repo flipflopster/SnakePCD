@@ -159,4 +159,11 @@ public abstract class Board extends Observable {
 		return cellLst;
 	}
 
+	public void interruptSnakes(Boolean reset) {
+		for(Snake s : snakes) {
+			s.setReset(reset);
+			s.interrupt();
+		}
+	}
+
 }

@@ -25,23 +25,21 @@ public class AutomaticSnake extends Snake {
 		try { doInitialPositioning(); } catch (Exception e1) { e1.printStackTrace(); }
 		
 		System.err.println("initial size:" + cells.size());
-		Boolean rb = false;
 		
 		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
-			BoardPosition nextMove= null;
+			BoardPosition nextMove = null;
 			
-			if(rb) {
+			if(getReset()) {
 				nextMove = getNextPossibleMove();
-				rb = false;
+				this.setReset(false);
 			} else 
 				nextMove = getNextMoveDumb();
-			
 			try {
 				if(nextMove != null)
 					move(this.getBoard().getCell(nextMove));
 				Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
-			} catch (InterruptedException e1) {
-				rb = true;
+			} catch (InterruptedException e) {
+				System.out.println("Snake " + getIdentification() + " interrupted");
 			}
 		}
 		System.out.println("joever");
