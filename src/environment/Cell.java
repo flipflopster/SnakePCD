@@ -50,7 +50,7 @@ public class Cell {
 
 	public synchronized void release() {
 		ocuppyingSnake = null;
-		this.notify();
+		this.notifyAll();
 	}
 
 	public boolean isOcupiedBySnake() {
@@ -59,9 +59,7 @@ public class Cell {
 	
 	public synchronized void setGameElement(GameElement element) {
 		// TODO coordination and mutual exclusion
-		lock.lock();
 		gameElement = element;
-		lock.unlock();
 	}
 
 	public boolean isOcupied() {
@@ -88,7 +86,7 @@ public class Cell {
 	public synchronized void removeObstacle() {
 	//TODO
 		gameElement = null;
-		this.notify();
+		this.notifyAll();
 	}
 
 	public Goal getGoal() {
