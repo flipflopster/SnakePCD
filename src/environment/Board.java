@@ -25,7 +25,7 @@ public abstract class Board extends Observable {
 	protected LinkedList<Snake> snakes = new LinkedList<Snake>();
 	
 	protected ExecutorService pool;
-	public static final int OBSTACLE_MOVE_INTERVAL = 400;
+	public static final int OBSTACLE_MOVE_INTERVAL = 2000;
 	private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 	protected LinkedList<ObstacleMover> movers = new LinkedList<ObstacleMover>();
 	protected boolean isFinished;
@@ -42,21 +42,15 @@ public abstract class Board extends Observable {
 
 	}
 
-	public Cell getCell(BoardPosition cellCoord) {
-		return cells[cellCoord.x][cellCoord.y];
-	}
+	public Cell getCell(BoardPosition cellCoord) { return cells[cellCoord.x][cellCoord.y]; }
 
 	public BoardPosition getRandomPosition() {
 		return new BoardPosition((int) (Math.random() * NUM_ROWS),(int) (Math.random() * NUM_ROWS));
 	}
 
-	public BoardPosition getGoalPosition() {
-		return goalPosition;
-	}
+	public BoardPosition getGoalPosition() { return goalPosition; }
 
-	public void setGoalPosition(BoardPosition goalPosition) {
-		this.goalPosition = goalPosition;
-	}
+	public void setGoalPosition(BoardPosition goalPosition) { this.goalPosition = goalPosition; }
 	
 	public void addGameElement(GameElement gameElement) {
 		boolean placed = false;
@@ -80,8 +74,6 @@ public abstract class Board extends Observable {
 		getCell(getGoalPosition()).removeGoal();
 		for(Snake s : getSnakes())
 			s.interrupt();
-		for(ObstacleMover o : movers)
-			o.interrupt();
 		pool.shutdownNow();
 		setChanged();
 	}
@@ -118,9 +110,7 @@ public abstract class Board extends Observable {
 		}
 	}
 	
-	public LinkedList<Snake> getSnakes() {
-		return snakes;
-	}
+	public LinkedList<Snake> getSnakes() { return snakes; }
 
 	@Override
 	public void setChanged() {
@@ -128,9 +118,7 @@ public abstract class Board extends Observable {
 		notifyObservers();
 	}
 
-	public LinkedList<Obstacle> getObstacles() {
-		return obstacles;
-	}
+	public LinkedList<Obstacle> getObstacles() { return obstacles; }
 
 	public abstract void init(); 
 	
@@ -138,24 +126,19 @@ public abstract class Board extends Observable {
 
 	public abstract void handleKeyRelease();	
 
-	public void addSnake(Snake snake) {
-		snakes.add(snake);
-	}
+	public void addSnake(Snake snake) { snakes.add(snake); }
 	
 	// Metodo para as cobras manejarem as interrupcoes.
 	public boolean isFinished() { return isFinished; }
 	
 	// Metodo auxiliar para a colocacao das snakes.
 	public LinkedList<Cell> getEmptyCellsList(int column) {
-		Cell[] cellarr = this.cells[column];
 		LinkedList<Cell> cellLst = new LinkedList<Cell>();
-		
-		for (int i = 0; i != cellarr.length; i++) {
-			Cell c = cellarr[i];
+		for (int i = 0; i != NUM_ROWS; i++) {
+			Cell c = this.cells[column][i];
 			if(!c.isOcupied())
 				cellLst.add(c);
 		}
-		
 		return cellLst;
 	}
 

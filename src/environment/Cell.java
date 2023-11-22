@@ -20,32 +20,25 @@ public class Cell {
 	private BoardPosition position;
 	private Snake ocuppyingSnake = null;
 	private GameElement gameElement = null;
-	private boolean queued = false;
-	private Lock lock = new ReentrantLock();
+	// private Lock lock = new ReentrantLock();
 	
 	public GameElement getGameElement() {
 		return gameElement;
 	}
 	
-	public String toString() {
-		return position.toString();
-	}
+	public String toString() { return position.toString(); }
 
 	public Cell(BoardPosition position) {
 		super();
 		this.position = position;
 	}
 
-	public BoardPosition getPosition() {
-		return position;
-	}
+	public BoardPosition getPosition() { return position; }
 
 	public synchronized void request(Snake snake) throws InterruptedException {
-		//TODO coordination and mutual exclusion
 		while(isOcupied())
 			this.wait();
 		ocuppyingSnake = snake;
-		queued = false;
 	}
 
 	public synchronized void release() {
@@ -53,12 +46,9 @@ public class Cell {
 		this.notifyAll();
 	}
 
-	public boolean isOcupiedBySnake() {
-		return ocuppyingSnake != null;
-	}
+	public boolean isOcupiedBySnake() { return ocuppyingSnake != null; }
 	
 	public synchronized void setGameElement(GameElement element) {
-		// TODO coordination and mutual exclusion
 		gameElement = element;
 	}
 
@@ -73,18 +63,15 @@ public class Cell {
 
 
 	public synchronized Goal removeGoal() {
-		// TODO
 		Goal ge = null;
 		if(isOcupiedByGoal()) {
 			ge = (Goal)gameElement;
 			gameElement = null;
-			return ge;
-		} else 
-			return ge;
+		}
+		return ge;
 	}
 	
 	public synchronized void removeObstacle() {
-	//TODO
 		gameElement = null;
 		this.notifyAll();
 	}
@@ -95,21 +82,18 @@ public class Cell {
 
 
 	public boolean isOcupiedByGoal() {
-		return (gameElement!=null && gameElement instanceof Goal);
+		return (gameElement != null && gameElement instanceof Goal);
 	}
 	
 	public Cell getBest(Cell c, BoardPosition goalPos) {
-		if(this == null && c == null) return null;
 		if(this == null) return c;
 		if(c == null) return this;
-		if(this.getPosition().distanceTo(goalPos) < c.getPosition().distanceTo(goalPos))
-			return this;
-		if(this.getPosition().distanceTo(goalPos) > c.getPosition().distanceTo(goalPos))
-			return c;
-		if(this.isOcupied())
-			return c;
-		if(c.isOcupied())
-			return this;
+		Double thisDistance = this.getPosition().distanceTo(goalPos);
+		Double cDistance = c.getPosition().distanceTo(goalPos);
+		if(thisDistance < cDistance) return this;
+		if(thisDistance > cDistance) return c;
+		if(this.isOcupied()) return c;
+		if(c.isOcupied()) return this;
 		return this;
 	}
 

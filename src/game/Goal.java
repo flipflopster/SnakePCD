@@ -27,7 +27,7 @@ public class Goal extends GameElement  {
 		incrementValue();
 		board.addGameElement(this);
 		
-		board.interruptSnakes(false);		// Para quando o goal mudar de posição as snakes
+		//board.interruptSnakes(false);		// Para quando o goal mudar de posição as snakes
 											// mudarem de direção.	
 		return getValue() - 1;
 	}

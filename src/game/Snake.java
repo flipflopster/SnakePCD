@@ -99,9 +99,6 @@ public abstract class Snake extends Thread implements Serializable{
 		System.out.println("Snake " + getIdentification() + " starting at:" + getCells().getLast());		
 	}
 	
-	public Board getBoard() {
-		return board;
-	}
-	
+	public Board getBoard() { return board; }
 	
 }
