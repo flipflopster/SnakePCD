@@ -8,8 +8,8 @@ import environment.Board;
   */
 public abstract class HumanSnake extends Snake {
 	
-	public HumanSnake(int id,Board board) {
-		super(id,board);
+	public HumanSnake(int id, Board board, String name) {
+		super(id, board, name);
 	}
 
 	@Override

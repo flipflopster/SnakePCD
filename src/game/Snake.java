@@ -26,7 +26,8 @@ public abstract class Snake extends Thread implements Serializable{
 	private Board board;
 	private boolean resetButton;
 	
-	public Snake(int id,Board board) {
+	public Snake(int id, Board board, String name) {
+		super(name);
 		this.id = id;
 		this.board = board;
 		this.resetButton = false;
@@ -96,7 +97,7 @@ public abstract class Snake extends Thread implements Serializable{
 		}
 		
 		cells.add(board.getCell(at));
-		System.out.println("Snake " + getIdentification() + " starting at:" + getCells().getLast());		
+		System.out.println(getName() + " starting at:" + getCells().getLast());		
 	}
 	
 	public Board getBoard() { return board; }

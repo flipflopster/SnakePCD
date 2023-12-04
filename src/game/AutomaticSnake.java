@@ -15,8 +15,8 @@ import environment.Board;
 import environment.BoardPosition;
 
 public class AutomaticSnake extends Snake {
-	public AutomaticSnake(int id, LocalBoard board) {
-		super(id, board);
+	public AutomaticSnake(int id, LocalBoard board, String name) {
+		super(id, board, name);
 
 	}
 
@@ -40,7 +40,7 @@ public class AutomaticSnake extends Snake {
 				System.out.println("Snake " + getIdentification() + " interrupted");
 			}
 		}
-		System.out.println("joever");
+		System.out.println(getName() + " is joever");
 	}
 	
 	private BoardPosition getNextPossibleMove() {
