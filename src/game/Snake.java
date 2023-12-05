@@ -52,8 +52,8 @@ public abstract class Snake extends Thread implements Serializable{
 	protected void move(Cell cell) throws InterruptedException {
 		Goal g = cell.removeGoal();
 		if(g != null) {
-			g.captureGoal();
-			size++;
+			int plus = g.captureGoal();
+			size = size + plus;
 		}
 			
 		cell.request(this);

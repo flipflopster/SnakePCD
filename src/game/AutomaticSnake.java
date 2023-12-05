@@ -92,13 +92,13 @@ public class AutomaticSnake extends Snake {
 		return move;
 	}
 	
-	public void moveDumb(){
-		try {
-			move(this.getBoard().getCell(getNextMoveDumb()));
-			Thread.sleep(getBoard().PLAYER_PLAY_INTERVAL);
-		}catch(InterruptedException e ) {
-			
-		}
-		
-	}
+//	public void moveDumb(){
+//		try {
+//			move(this.getBoard().getCell(getNextMoveDumb()));
+//			Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
+//		} catch(InterruptedException e ) {
+//			
+//		}
+//		
+//	}
 }

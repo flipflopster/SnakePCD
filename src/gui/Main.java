@@ -8,10 +8,12 @@ import javax.net.ssl.StandardConstants;
 import environment.LocalBoard;
 import game.Server;
 
-
 public class Main {
+	
+	private static final boolean INTERRUPT_SNAKES = true;
+	
 	public static void main(String[] args) {
-		LocalBoard board = new LocalBoard();
+		LocalBoard board = new LocalBoard(INTERRUPT_SNAKES);
 		SnakeGui game = new SnakeGui(board, 600, 0); 
 		game.init();
 		// Launch server
