@@ -93,8 +93,8 @@ public abstract class Board extends Observable {
 
 	}	
 
-	protected Goal addGoal(boolean interruptSnakes) {
-		Goal goal = new Goal(this, interruptSnakes);
+	protected Goal addGoal() {
+		Goal goal = new Goal(this);
 		addGameElement(goal);
 		return goal;
 	}

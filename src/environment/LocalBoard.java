@@ -28,7 +28,7 @@ public class LocalBoard extends Board {
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
 	private static final String[] SNAKE_NAMES = {"Big Boss", "Solid Snake", "Liquid Snake", "Solidus Snake", "Raiden"};
 
-	public LocalBoard(boolean interruptSnakes) {
+	public LocalBoard() {
 		
 		for (int i = 0; i < NUM_SNAKES; i++) {
 			AutomaticSnake snake = new AutomaticSnake(i, this, SNAKE_NAMES[i]);
@@ -43,7 +43,7 @@ public class LocalBoard extends Board {
 			}
 		}
 		
-		Goal goal = addGoal(interruptSnakes);
+		Goal goal = addGoal();
 //		System.err.println("All elements placed");
 	}
 

@@ -69,4 +69,6 @@ public abstract class HumanSnake extends Snake {
 		return nextMove;
 	}
 	
+	public void changeDirection(int key) { this.lastKeyCode = key; }
+	
 }

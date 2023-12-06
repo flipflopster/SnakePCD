@@ -11,10 +11,13 @@ import game.Server;
 public class Main {
 	
 	// Variavel para quando uma snake coletar um goal, avisar todas as outras snakes que o goal trocou de lugar.
-	private static final boolean INTERRUPT_SNAKES = true;
+	public static final boolean INTERRUPT_SNAKES = true;
+	
+	// Se true, entao quando uma cobra coleta um goal cresce esse numero de celulas
+	public static final boolean BIG_GOAL = false;
 	
 	public static void main(String[] args) {
-		LocalBoard board = new LocalBoard(INTERRUPT_SNAKES);
+		LocalBoard board = new LocalBoard();
 		SnakeGui game = new SnakeGui(board, 600, 0); 
 		game.init();
 		// Launch server
