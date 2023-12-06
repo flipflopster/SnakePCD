@@ -1,5 +1,8 @@
 package game;
 
+import java.awt.event.KeyEvent;
+import java.util.List;
+
 import environment.Board;
 import environment.BoardPosition;
 
@@ -11,8 +14,11 @@ import environment.BoardPosition;
 
 public abstract class HumanSnake extends Snake {
 	
+	private int lastKeyCode;
+	
 	public HumanSnake(int id, Board board, String name) {
 		super(id, board, name);
+		lastKeyCode = KeyEvent.KEY_LOCATION_RIGHT;
 	}
 
 	@Override
@@ -44,7 +50,23 @@ public abstract class HumanSnake extends Snake {
 
 	private BoardPosition getNextMove() {
 		// TODO Auto-generated method stub
-		return null;
+		BoardPosition nextMove = null;
+		BoardPosition pos = cells.getLast().getPosition();
+		
+		switch(lastKeyCode) {
+			case(KeyEvent.KEY_LOCATION_LEFT): 
+				if(pos.x > 0) nextMove = pos.getCellLeft();
+				break;
+			case(KeyEvent.VK_KP_UP):
+				if(pos.y > 0) nextMove = pos.getCellAbove();
+				break;
+			case(KeyEvent.VK_DOWN):
+				if(pos.y < Board.NUM_COLUMNS - 1) nextMove = pos.getCellBelow();
+				break;
+			default: if(pos.x < Board.NUM_COLUMNS - 1) nextMove = pos.getCellRight();
+		}
+		
+		return nextMove;
 	}
 	
 }

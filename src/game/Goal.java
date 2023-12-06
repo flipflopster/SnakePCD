@@ -8,11 +8,10 @@ public class Goal extends GameElement  {
 	private int value = 1;
 	private Board board;
 	public static final int MAX_VALUE = 10;
-	public boolean interruptSnakes;
+	private boolean interruptSnakes;
 	
 	public Goal(Board board, boolean interruptSnakes) {
 		this.board = board;
-		this.interruptSnakes = interruptSnakes;
 	}
 	
 	public int getValue() {
@@ -29,7 +28,8 @@ public class Goal extends GameElement  {
 		incrementValue();
 		board.addGameElement(this);
 		
-		if(interruptSnakes) board.interruptSnakes(false);	// Para quando o goal mudar de posição as snakes
+		if(interruptSnakes)
+			board.interruptSnakes(false);	// Para quando o goal mudar de posição as snakes
 											// mudarem de direção.	
 		return getValue() - 1;
 	}

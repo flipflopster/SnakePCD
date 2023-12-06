@@ -10,6 +10,7 @@ import game.Server;
 
 public class Main {
 	
+	// Variavel para quando uma snake coletar um goal, avisar todas as outras snakes que o goal trocou de lugar.
 	private static final boolean INTERRUPT_SNAKES = true;
 	
 	public static void main(String[] args) {

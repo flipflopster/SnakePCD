@@ -79,8 +79,8 @@ public abstract class Board extends Observable {
 	}
 
 	public List<BoardPosition> getNeighboringPositions(Cell cell) {
-		ArrayList<BoardPosition> possibleCells=new ArrayList<BoardPosition>();
-		BoardPosition pos=cell.getPosition();
+		ArrayList<BoardPosition> possibleCells = new ArrayList<BoardPosition>();
+		BoardPosition pos = cell.getPosition();
 		if(pos.x > 0)
 			possibleCells.add(pos.getCellLeft());
 		if(pos.x < NUM_COLUMNS-1)
@@ -95,7 +95,7 @@ public abstract class Board extends Observable {
 
 	protected Goal addGoal(boolean interruptSnakes) {
 		Goal goal = new Goal(this, interruptSnakes);
-		addGameElement( goal);
+		addGameElement(goal);
 		return goal;
 	}
 
