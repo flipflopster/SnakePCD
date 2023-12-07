@@ -6,7 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import environment.Board;
+import gui.SnakeGui;
+import remote.RemoteBoard;
 
 public class Server {
 	// TODO
@@ -15,12 +16,13 @@ public class Server {
 	private ServerSocket ss;
 	private static final int PORT = 12345;
 	
-	private Board b;
+	private RemoteBoard b;
 	
-	private void runServer() {
+	public void runServer(RemoteBoard b) {
 		try {
 			
 			ss = new ServerSocket(PORT);
+			this.b = b;
 			while(true) {
 				waitForConnections();
 			}
@@ -46,6 +48,8 @@ public class Server {
 		private ObjectInputStream in;
 		private ObjectOutputStream out;
 		
+		private HumanSnake hs;
+		
 		public ConnectionHandler(Socket connection) {
 			this.connection = connection;
 		}
@@ -57,21 +61,21 @@ public class Server {
 				processConnection();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
 			} finally { closeConnection(); }
 		}
 		
-		private void processConnection() throws IOException, ClassNotFoundException {
-			
-			do {
-				
-				int key = (int) in.readObject(); // Thread para a espera.
-				
-				out.writeObject(b);
-				
-			} while(!b.isFinished());
-			
+		private void processConnection() throws IOException {
+			hs = new HumanSnake(b.getNextSnakeId(), b);
+			b.addSnake(hs);
+			while(!b.isFinished()) {
+				try {
+					out.writeObject(b);
+					int key = (int) in.readObject(); // Thread para a espera.
+					hs.changeDirection(key);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		private void getStream() throws IOException {
@@ -89,6 +93,12 @@ public class Server {
 			}
 		}
 		
+	}
+	
+	public static void main(String[] args) {
+		RemoteBoard board = new RemoteBoard();
+		Server server = new Server();
+		server.runServer(board);
 	}
 	
 }

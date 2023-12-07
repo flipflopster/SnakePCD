@@ -7,6 +7,7 @@ import javax.net.ssl.StandardConstants;
 
 import environment.LocalBoard;
 import game.Server;
+import remote.RemoteBoard;
 
 public class Main {
 	
@@ -24,4 +25,5 @@ public class Main {
 		// TODO
 		
 	}
+	
 }

@@ -12,12 +12,12 @@ import environment.BoardPosition;
   *
   */
 
-public abstract class HumanSnake extends Snake {
+public class HumanSnake extends Snake {
 	
 	private int lastKeyCode;
 	
-	public HumanSnake(int id, Board board, String name) {
-		super(id, board, name);
+	public HumanSnake(int id, Board board) {
+		super(id, board, "Client " + id);
 		lastKeyCode = KeyEvent.KEY_LOCATION_RIGHT;
 	}
 

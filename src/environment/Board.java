@@ -30,7 +30,6 @@ public abstract class Board extends Observable {
 	protected LinkedList<ObstacleMover> movers = new LinkedList<ObstacleMover>();
 	protected boolean isFinished;
 	
-
 	public Board() {
 	    isFinished = false;
 		cells = new Cell[NUM_COLUMNS][NUM_ROWS];
@@ -147,6 +146,11 @@ public abstract class Board extends Observable {
 			s.setReset(reset);
 			s.interrupt();
 		}
+	}
+
+	public int getNextSnakeId() {
+		if(snakes.isEmpty()) return 1;
+		return (int) (this.snakes.getLast().getId() + 1);
 	}
 
 }

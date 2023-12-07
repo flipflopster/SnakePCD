@@ -3,6 +3,7 @@ package remote;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import environment.LocalBoard;
@@ -14,21 +15,23 @@ import game.Obstacle;
 import game.Snake;
 
 /** Remote representation of the game, no local threads involved.
- * Game state will be changed when updated info is received from Srver.
+ * Game state will be changed when updated info is received from Server.
  * Only for part II of the project.
  * @author luismota
  *
  */
-public class RemoteBoard extends Board{
+public class RemoteBoard extends Board implements Serializable {
+	
+	private int key = 0;
 	
 	@Override
 	public void handleKeyPress(int keyCode) {
-		//TODO
+		key = keyCode;
 	}
 
 	@Override
 	public void handleKeyRelease() {
-		// TODO
+		key = 0;
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class RemoteBoard extends Board{
 		// TODO 		
 	}
 
-
+	public int getKey() { return key; }
 	
 
 }
