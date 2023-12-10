@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.ExecutorService;
 
+import game.BoardData;
 import game.GameElement;
 import game.Goal;
 import game.Obstacle;
@@ -154,16 +155,10 @@ public abstract class Board extends Observable {
 		return (int) (this.snakes.getLast().getId() + 1);
 	}
 	
-	public void update(Board newBoard) {
-		this.cells = newBoard.cells;
-		this.goalPosition = newBoard.goalPosition;
-		
-		this.snakes = newBoard.snakes;
-		this.pool = newBoard.pool;
-		
-		this.obstacles = newBoard.obstacles;
-		this.movers = newBoard.movers;
-		this.isFinished = newBoard.isFinished;
+	public void update(BoardData newBoard) {
+		this.cells = newBoard.getCells();
+		this.snakes = newBoard.getSnakes();
+		this.isFinished = newBoard.isFinished();
 		
 		this.setChanged();
 	}

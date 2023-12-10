@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import environment.Board;
 import gui.SnakeGui;
 import remote.RemoteBoard;
 
@@ -62,20 +63,23 @@ public class Server {
 				processConnection();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			} finally { closeConnection(); }
 		}
 		
-		private void processConnection() throws IOException {
+		private void processConnection() throws IOException, InterruptedException {
 			hs = new HumanSnake(b.getNextSnakeId(), b);
 			b.addSnake(hs);
 			b.init();
-			b.setChanged();
 			while(!b.isFinished()) {
 				try {
-					out.writeObject(b);
+					b.setChanged();
+					out.writeObject(new BoardData(b));
 					int key = (int) in.readObject(); // Thread para a espera.
 					hs.changeDirection(key);
 					b.setChanged();
+					sleep(Board.PLAYER_PLAY_INTERVAL);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

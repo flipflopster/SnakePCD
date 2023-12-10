@@ -31,7 +31,6 @@ public class RemoteBoard extends Board implements Serializable {
 
 	@Override
 	public void handleKeyRelease() {
-		key = 0;
 	}
 
 	@Override

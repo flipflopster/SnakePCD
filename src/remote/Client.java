@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 import environment.Board;
 import gui.SnakeGui;
+import game.BoardData;
 
 /** Remore client, only for part II
  * 
@@ -60,14 +61,15 @@ public class Client {
 	}
 
 	private void processConnection() throws ClassNotFoundException, IOException {
-		b = (RemoteBoard) in.readObject();
+		b = new RemoteBoard();
 		sg = new SnakeGui(b, 600, 0);
 		sg.init();
-
 		while(!b.isFinished()) {
-			out.writeObject((Serializable)(b.getKey()));
-			RemoteBoard newBoard = (RemoteBoard) in.readObject();
+			BoardData newBoard = (BoardData) in.readObject();
 			b.update(newBoard);
+			b.setChanged();
+			System.out.println(newBoard.getSnakes().get(0).getPath());
+			out.writeObject((b.getKey()));
 		}
 	}
 
