@@ -64,7 +64,7 @@ public class HumanSnake extends Snake {
 					break;
 				}
 			case(KeyEvent.VK_RIGHT):
-				if(pos.x > Board.NUM_COLUMNS - 1) {
+				if(pos.x < Board.NUM_ROWS - 1) {
 					nextMove = pos.getCellRight();
 					break;
 				}
@@ -74,7 +74,7 @@ public class HumanSnake extends Snake {
 					break;
 				}
 			case(KeyEvent.VK_DOWN):
-				if(pos.y < Board.NUM_ROWS - 1) {
+				if(pos.y < Board.NUM_COLUMNS - 1) {
 					nextMove = pos.getCellBelow();
 					break;
 				}
