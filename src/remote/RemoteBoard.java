@@ -36,7 +36,9 @@ public class RemoteBoard extends Board implements Serializable {
 
 	@Override
 	public void init() {
-		// TODO 		
+		// TODO 
+		for(Snake s : snakes)
+			s.start();
 	}
 
 	public int getKey() { return key; }

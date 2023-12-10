@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -19,6 +20,7 @@ import gui.SnakeGui;
 
 public class Client {
 	
+	private SnakeGui sg;
 	private RemoteBoard b;
 	
 	private Socket server;
@@ -59,11 +61,13 @@ public class Client {
 
 	private void processConnection() throws ClassNotFoundException, IOException {
 		b = (RemoteBoard) in.readObject();
+		sg = new SnakeGui(b, 600, 0);
+		sg.init();
+
 		while(!b.isFinished()) {
-			out.writeObject(b.getKey());
-			
-			b = (RemoteBoard) in.readObject();
-			b.setChanged();
+			out.writeObject((Serializable)(b.getKey()));
+			RemoteBoard newBoard = (RemoteBoard) in.readObject();
+			b.update(newBoard);
 		}
 	}
 
@@ -72,14 +76,8 @@ public class Client {
 		in = new ObjectInputStream(server.getInputStream());	
 	}
 	
-	private RemoteBoard getBoard() {
-		return b;
-	}
-	
 	public static void main(String[] args) throws UnknownHostException {
 		Client c = new Client(InetAddress.getByName("localhost"), 12345);
 		c.runClient();
-		SnakeGui game = new SnakeGui(c.getBoard(), 600, 0);
-		game.init();
 	}
 }

@@ -15,6 +15,7 @@ import game.ObstacleMover;
 import game.Snake;
 
 public abstract class Board extends Observable {
+	
 	public Cell[][] cells;
 	private BoardPosition goalPosition;
 	public static final long PLAYER_PLAY_INTERVAL = 100;
@@ -151,6 +152,20 @@ public abstract class Board extends Observable {
 	public int getNextSnakeId() {
 		if(snakes.isEmpty()) return 1;
 		return (int) (this.snakes.getLast().getId() + 1);
+	}
+	
+	public void update(Board newBoard) {
+		this.cells = newBoard.cells;
+		this.goalPosition = newBoard.goalPosition;
+		
+		this.snakes = newBoard.snakes;
+		this.pool = newBoard.pool;
+		
+		this.obstacles = newBoard.obstacles;
+		this.movers = newBoard.movers;
+		this.isFinished = newBoard.isFinished;
+		
+		this.setChanged();
 	}
 
 }

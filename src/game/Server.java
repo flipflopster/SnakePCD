@@ -21,7 +21,8 @@ public class Server {
 	public void runServer(RemoteBoard b) {
 		try {
 			
-			ss = new ServerSocket(PORT);
+			ss = new ServerSocket(PORT, 2);
+		
 			this.b = b;
 			while(true) {
 				waitForConnections();
@@ -38,7 +39,7 @@ public class Server {
 		System.out.println("Found some dude by the name of: " + client.getInetAddress().getHostName());
 		
 		h = new ConnectionHandler(client);
-		h.start();
+		h.run();
 	}
 	
 	private class ConnectionHandler extends Thread {
@@ -67,11 +68,14 @@ public class Server {
 		private void processConnection() throws IOException {
 			hs = new HumanSnake(b.getNextSnakeId(), b);
 			b.addSnake(hs);
+			b.init();
+			b.setChanged();
 			while(!b.isFinished()) {
 				try {
 					out.writeObject(b);
 					int key = (int) in.readObject(); // Thread para a espera.
 					hs.changeDirection(key);
+					b.setChanged();
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
