@@ -68,7 +68,6 @@ public class Client {
 			BoardData newBoard = (BoardData) in.readObject();
 			b.update(newBoard);
 			b.setChanged();
-			System.out.println(newBoard.getSnakes().get(0).getPath());
 			out.writeObject((b.getKey()));
 		}
 	}

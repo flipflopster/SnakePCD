@@ -1,5 +1,6 @@
 package remote;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
@@ -22,7 +23,7 @@ import game.Snake;
  */
 public class RemoteBoard extends Board implements Serializable {
 	
-	private int key = 0;
+	private int key = KeyEvent.VK_RIGHT;
 	
 	@Override
 	public void handleKeyPress(int keyCode) {

@@ -74,12 +74,13 @@ public class Server {
 			b.init();
 			while(!b.isFinished()) {
 				try {
+					out.reset();
 					b.setChanged();
-					out.writeObject(new BoardData(b));
+					BoardData bd = new BoardData(b);
+					out.writeObject(bd);
 					int key = (int) in.readObject(); // Thread para a espera.
 					hs.changeDirection(key);
 					b.setChanged();
-					sleep(Board.PLAYER_PLAY_INTERVAL);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

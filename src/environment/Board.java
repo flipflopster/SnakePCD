@@ -19,7 +19,7 @@ public abstract class Board extends Observable {
 	
 	public Cell[][] cells;
 	private BoardPosition goalPosition;
-	public static final long PLAYER_PLAY_INTERVAL = 100;
+	public static final long PLAYER_PLAY_INTERVAL = 3000;
 	public static final long REMOTE_REFRESH_INTERVAL = 200;
 	public static final int NUM_COLUMNS = 30;
 	public static final int NUM_ROWS = 30;

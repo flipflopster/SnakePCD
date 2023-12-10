@@ -18,6 +18,7 @@ import environment.Cell;
  *
  */
 public abstract class Snake extends Thread implements Serializable {
+	
 	protected static final int DELTA_SIZE = 10;
 	protected LinkedList<Cell> cells = new LinkedList<Cell>();
 	protected int size = 5;
@@ -50,6 +51,8 @@ public abstract class Snake extends Thread implements Serializable {
 	}
 	
 	protected void move(Cell cell) throws InterruptedException {
+		if(cell == null)
+			return;
 		Goal g = cell.removeGoal();
 		if(g != null) {
 			int plus = g.captureGoal();

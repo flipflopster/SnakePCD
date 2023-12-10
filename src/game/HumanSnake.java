@@ -5,6 +5,7 @@ import java.util.List;
 
 import environment.Board;
 import environment.BoardPosition;
+import environment.Cell;
 
  /** Class for a remote snake, controlled by a human 
   * 
@@ -18,7 +19,7 @@ public class HumanSnake extends Snake {
 	
 	public HumanSnake(int id, Board board) {
 		super(id, board, "Client " + id);
-		lastKeyCode = KeyEvent.KEY_LOCATION_RIGHT;
+		lastKeyCode = KeyEvent.VK_RIGHT;
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class HumanSnake extends Snake {
 			BoardPosition nextMove = getNextMove();
 			try {
 				if(nextMove != null)
+					System.out.println(nextMove);
 					move(getBoard().getCell(nextMove));
 				Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e) {
@@ -53,22 +55,63 @@ public class HumanSnake extends Snake {
 		BoardPosition nextMove = null;
 		BoardPosition pos = cells.getLast().getPosition();
 		
+		System.out.println(lastKeyCode);
+		
 		switch(lastKeyCode) {
-			case(KeyEvent.KEY_LOCATION_LEFT): 
-				if(pos.x > 0) nextMove = pos.getCellLeft();
-				break;
-			case(KeyEvent.VK_KP_UP):
-				if(pos.y > 0) nextMove = pos.getCellAbove();
-				break;
+			case(KeyEvent.VK_LEFT): 
+				if(pos.x > 0) {
+					nextMove = pos.getCellLeft();
+					break;
+				}
+			case(KeyEvent.VK_RIGHT):
+				if(pos.x > Board.NUM_COLUMNS - 1) {
+					nextMove = pos.getCellRight();
+					break;
+				}
+			case(KeyEvent.VK_UP):
+				if(pos.y > 0) {
+					nextMove = pos.getCellAbove();
+					break;
+				}
 			case(KeyEvent.VK_DOWN):
-				if(pos.y < Board.NUM_COLUMNS - 1) nextMove = pos.getCellBelow();
-				break;
-			default: if(pos.x < Board.NUM_COLUMNS - 1) nextMove = pos.getCellRight();
+				if(pos.y < Board.NUM_ROWS - 1) {
+					nextMove = pos.getCellBelow();
+					break;
+				}
+			default: nextMove = null;
 		}
 		
 		return nextMove;
 	}
 	
-	public void changeDirection(int key) { this.lastKeyCode = key; }
+	public void changeDirection(int key) {
+		if(cells.size() <= 1) { this.lastKeyCode = key; return; }
+		
+		if(key == KeyEvent.VK_LEFT) 
+			if(cells.get(cells.size() - 2).getPosition().equals(cells.getLast().getPosition().getCellLeft()))
+				return;
+		if(key == KeyEvent.VK_UP)
+			if(cells.get(cells.size() - 2).getPosition().equals(cells.getLast().getPosition().getCellAbove()))
+				return;
+		if(key == KeyEvent.VK_DOWN)
+			if(cells.get(cells.size() - 2).getPosition().equals(cells.getLast().getPosition().getCellBelow()))
+				return;
+		if(key == KeyEvent.VK_RIGHT)
+			if(cells.get(cells.size() - 2).getPosition().equals(cells.getLast().getPosition().getCellRight()))
+				return;
+		this.lastKeyCode = key;
+		
+//		switch(key) {
+//        case(KeyEvent.VK_LEFT): 
+//            if(lastKeyCode==KeyEvent.VK_RIGHT) break;
+//        case(KeyEvent.VK_RIGHT): 
+//            if(lastKeyCode==KeyEvent.VK_LEFT) break;
+//        case(KeyEvent.VK_UP): 
+//            if(lastKeyCode==KeyEvent.VK_DOWN) break;
+//        case(KeyEvent.VK_DOWN): 
+//            if(lastKeyCode==KeyEvent.VK_UP) break;
+//        default: lastKeyCode = key;
+		
+	}
 	
 }
