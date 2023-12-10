@@ -39,9 +39,10 @@ public class HumanSnake extends Snake {
 		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
 			BoardPosition nextMove = getNextMove();
 			try {
-				if(nextMove != null)
+				if(nextMove != null) {
 					System.out.println(nextMove);
 					move(getBoard().getCell(nextMove));
+				}
 				Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e) {
 				System.out.println("Snake " + getIdentification() + " interrupted");
@@ -55,30 +56,28 @@ public class HumanSnake extends Snake {
 		BoardPosition nextMove = null;
 		BoardPosition pos = cells.getLast().getPosition();
 		
-		System.out.println(lastKeyCode);
-		
 		switch(lastKeyCode) {
 			case(KeyEvent.VK_LEFT): 
-				if(pos.x > 0) {
-					nextMove = pos.getCellLeft();
-					break;
-				}
+				if(pos.x > 0)
+					if(!getBoard().getCell(pos.getCellLeft()).isOcupied())
+						nextMove = pos.getCellLeft();
+				break;
 			case(KeyEvent.VK_RIGHT):
-				if(pos.x < Board.NUM_ROWS - 1) {
-					nextMove = pos.getCellRight();
-					break;
-				}
+				if(pos.x < Board.NUM_ROWS - 1)
+					if(!getBoard().getCell(pos.getCellRight()).isOcupied())
+						nextMove = pos.getCellRight();
+				break;
 			case(KeyEvent.VK_UP):
-				if(pos.y > 0) {
-					nextMove = pos.getCellAbove();
-					break;
-				}
+				if(pos.y > 0)
+					if(!getBoard().getCell(pos.getCellAbove()).isOcupied())
+						nextMove = pos.getCellAbove();
+				break;
 			case(KeyEvent.VK_DOWN):
-				if(pos.y < Board.NUM_COLUMNS - 1) {
-					nextMove = pos.getCellBelow();
-					break;
-				}
-			default: nextMove = null;
+				if(pos.y < Board.NUM_COLUMNS - 1)
+					if(!getBoard().getCell(pos.getCellBelow()).isOcupied())
+						nextMove = pos.getCellBelow();
+				break;
+			default: { nextMove = null; System.out.println("null");}
 		}
 		
 		return nextMove;

@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import environment.Board;
 import gui.SnakeGui;
@@ -13,7 +15,8 @@ import remote.RemoteBoard;
 public class Server {
 	// TODO
 	
-	private ConnectionHandler h;
+	protected ExecutorService pool;
+	//private ConnectionHandler h;
 	private ServerSocket ss;
 	private static final int PORT = 12345;
 	
@@ -21,8 +24,8 @@ public class Server {
 	
 	public void runServer(RemoteBoard b) {
 		try {
-			
-			ss = new ServerSocket(PORT, 2);
+			pool = Executors.newFixedThreadPool(10);
+			ss = new ServerSocket(PORT);
 		
 			this.b = b;
 			while(true) {
@@ -39,8 +42,7 @@ public class Server {
 		Socket client = ss.accept();
 		System.out.println("Found some dude by the name of: " + client.getInetAddress().getHostName());
 		
-		h = new ConnectionHandler(client);
-		h.run();
+		pool.execute(new ConnectionHandler(client));
 	}
 	
 	private class ConnectionHandler extends Thread {
@@ -71,7 +73,7 @@ public class Server {
 		private void processConnection() throws IOException, InterruptedException {
 			hs = new HumanSnake(b.getNextSnakeId(), b);
 			b.addSnake(hs);
-			b.init();
+			hs.start();
 			while(!b.isFinished()) {
 				try {
 					out.reset();
@@ -81,6 +83,7 @@ public class Server {
 					int key = (int) in.readObject(); // Thread para a espera.
 					hs.changeDirection(key);
 					b.setChanged();
+					sleep(Board.REMOTE_REFRESH_INTERVAL);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}

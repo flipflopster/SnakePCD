@@ -7,11 +7,11 @@ import environment.LocalBoard;
 
 public class ObstacleMover extends Thread {
 	private Obstacle obstacle;
-	private LocalBoard board;
+	private Board board;
 	private BoardPosition prePosition;
 	private boolean posPositionOcuppied = false;
 
-	public ObstacleMover(Obstacle obstacle, LocalBoard board) {
+	public ObstacleMover(Obstacle obstacle, Board board) {
 		super();
 		this.obstacle = obstacle;
 		this.board = board;

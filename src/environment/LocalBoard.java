@@ -35,7 +35,7 @@ public class LocalBoard extends Board {
 			snakes.add(snake);
 		}
 
-		addObstacles( NUM_OBSTACLES);
+		addObstacles(NUM_OBSTACLES);
 		for (int i = 0; i < NUM_SIMULTANEOUS_MOVING_OBSTACLES; i++) {
 			for(int j = 0; j < NUM_OBSTACLES; j++) {
 				ObstacleMover mover = new ObstacleMover(getObstacles().get(j), this);
