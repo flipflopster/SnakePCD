@@ -25,21 +25,7 @@ import game.Snake;
  */
 public class RemoteBoard extends Board {
 	
-	private static final int NUM_OBSTACLES = 25;
-	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
-	
 	private int key = KeyEvent.VK_RIGHT;
-	
-	public RemoteBoard() {
-		addObstacles(NUM_OBSTACLES);
-		for (int i = 0; i < NUM_SIMULTANEOUS_MOVING_OBSTACLES; i++) {
-			for(int j = 0; j < NUM_OBSTACLES; j++) {
-				ObstacleMover mover = new ObstacleMover(getObstacles().get(j), this);
-				movers.add(mover);
-			}
-		}
-		Goal goal = addGoal();
-	}
 	
 	@Override
 	public void handleKeyPress(int keyCode) {

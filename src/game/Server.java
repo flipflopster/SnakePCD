@@ -23,15 +23,16 @@ public class Server {
 	private static final String[] NAMES = {"Kazuhira Miller", "Revolver Ocelot"};
 	private int i;
 	
-	private LocalBoard board;
+	private Board board;
 	
-	public void runServer() {
+	public void runServer(Board b) {
 		try {
 			i = 0;
 			clientPool = Executors.newFixedThreadPool(10);
 			ss = new ServerSocket(PORT);
 		
-			board = new LocalBoard();
+			board = b;
+			
 			while(true) {
 				waitForConnections();
 			}
@@ -109,8 +110,9 @@ public class Server {
 	}
 	
 	public static void main(String[] args) {
+		LocalBoard board = new LocalBoard();
 		Server server = new Server();
-		server.runServer();
+		server.runServer(board);
 	}
 	
 }

@@ -2,11 +2,15 @@ package gui;
 
 import java.io.Console;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.net.ssl.StandardConstants;
 
+import environment.Board;
 import environment.LocalBoard;
 import game.Server;
+import remote.Client;
 import remote.RemoteBoard;
 
 public class Main {
@@ -21,9 +25,6 @@ public class Main {
 		LocalBoard board = new LocalBoard();
 		SnakeGui game = new SnakeGui(board, 600, 0); 
 		game.init();
-		// Launch server
-		// TODO
-		
 	}
 	
 }
