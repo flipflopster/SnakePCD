@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import environment.Board;
 import gui.SnakeGui;
 import game.BoardData;
+import game.Snake;
 
 /** Remore client, only for part II
  * 
@@ -65,9 +66,7 @@ public class Client {
 		sg = new SnakeGui(b, 600, 0);
 		sg.init();
 		while(!b.isFinished()) {
-			BoardData newBoard = (BoardData) in.readObject();
-			b.update(newBoard);
-			b.setChanged();
+			b.update((BoardData) in.readObject());
 			out.writeObject((b.getKey()));
 		}
 	}

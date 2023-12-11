@@ -10,7 +10,6 @@ import environment.Cell;
 public class BoardData implements Serializable{
 
 	private Cell[][] cells;
-	
 	private LinkedList<Snake> snakes;
 	private boolean isFinished;
 

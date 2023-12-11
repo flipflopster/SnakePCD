@@ -23,7 +23,7 @@ import game.Snake;
  * @author luismota
  *
  */
-public class RemoteBoard extends Board implements Serializable {
+public class RemoteBoard extends Board {
 	
 	private static final int NUM_OBSTACLES = 25;
 	private static final int NUM_SIMULTANEOUS_MOVING_OBSTACLES = 3;
@@ -53,9 +53,6 @@ public class RemoteBoard extends Board implements Serializable {
 	@Override
 	public void init() {
 		// TODO 
-		pool = Executors.newFixedThreadPool(NUM_SIMULTANEOUS_MOVING_OBSTACLES);
-		for(ObstacleMover s : movers)
-			pool.execute(s);
 	}
 
 	public int getKey() { return key; }

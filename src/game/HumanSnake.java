@@ -17,8 +17,8 @@ public class HumanSnake extends Snake {
 	
 	private int lastKeyCode;
 	
-	public HumanSnake(int id, Board board) {
-		super(id, board, "Client " + id);
+	public HumanSnake(int id, Board board, String name) {
+		super(id, board, name);
 		lastKeyCode = KeyEvent.VK_RIGHT;
 	}
 
@@ -39,13 +39,11 @@ public class HumanSnake extends Snake {
 		while(size <= DELTA_SIZE && !getBoard().isFinished()) {
 			BoardPosition nextMove = getNextMove();
 			try {
-				if(nextMove != null) {
-					System.out.println(nextMove);
+				if(nextMove != null)
 					move(getBoard().getCell(nextMove));
-				}
 				Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e) {
-				System.out.println("Snake " + getIdentification() + " interrupted");
+				System.out.println(getName() + " interrupted");
 			}
 		}
 		System.out.println(getName() + " is joever");

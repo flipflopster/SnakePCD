@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import environment.Board;
 import environment.BoardPosition;
 
 public class AutomaticSnake extends Snake {
+	
 	public AutomaticSnake(int id, LocalBoard board, String name) {
 		super(id, board, name);
 
@@ -37,7 +39,7 @@ public class AutomaticSnake extends Snake {
 					move(getBoard().getCell(nextMove));
 				Thread.sleep(Board.PLAYER_PLAY_INTERVAL);
 			} catch (InterruptedException e) {
-				System.out.println("Snake " + getIdentification() + " interrupted");
+				System.out.println(getName() + " interrupted");
 			}
 		}
 		System.out.println(getName() + " is joever");

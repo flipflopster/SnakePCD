@@ -1,10 +1,12 @@
 package game;
 
+import java.io.Serializable;
+
 import environment.Board;
 import environment.BoardPosition;
 import environment.LocalBoard;
 
-public class Obstacle extends GameElement {
+public class Obstacle extends GameElement implements Serializable {
 	
 	private BoardPosition curPosition = null;
 	private static final int NUM_MOVES = 3;

@@ -1,6 +1,7 @@
 package environment;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +22,7 @@ import game.AutomaticSnake;
  * @author luismota
  *
  */
-public class LocalBoard extends Board {
+public class LocalBoard extends Board implements Serializable {
 	
 	private static final int NUM_SNAKES = 5;
 	private static final int NUM_OBSTACLES = 25;
@@ -44,6 +45,7 @@ public class LocalBoard extends Board {
 		}
 		
 		Goal goal = addGoal();
+		init();
 //		System.err.println("All elements placed");
 	}
 

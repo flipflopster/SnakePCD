@@ -21,10 +21,9 @@ public class ObstacleMover extends Thread {
 	public void run() {
 
 		if(obstacle.getRemainingMoves() > 0) {
-			if(obstacle.getCurrentPosition() != null) {
+			if(obstacle.getCurrentPosition() != null) 
 				prePosition = obstacle.getCurrentPosition();
-			}
-			else { prePosition = getPosition(); }
+			else prePosition = getPosition();
 				
 			while(!posPositionOcuppied) {
 				Cell aux = board.getCell(board.getRandomPosition());
@@ -42,20 +41,16 @@ public class ObstacleMover extends Thread {
 				// e.printStackTrace();
 			}
 		}
-
-
-
 	}
+	
 	public BoardPosition getPosition() {
-		for (int i = 0; i < board.cells.length; i++) {
-			for (int j = 0; j < board.cells[i].length; j++) {
-				Cell aux = board.getCell(new BoardPosition(i,j));
-				if(!aux.isOcupiedByGoal() && !aux.isOcupiedBySnake() && aux.isOcupied()) {
-					if((Obstacle)aux.getGameElement()==obstacle)
-						return new BoardPosition(i,j);
+		for (int i = 0; i < Board.NUM_COLUMNS; i++)
+			for (int j = 0; j < Board.NUM_ROWS; j++) {
+				Cell aux = board.getCell(new BoardPosition(i, j));
+				if(!aux.isOcupiedByGoal() && !aux.isOcupiedBySnake() && aux.isOcupied())
+					if((Obstacle)aux.getGameElement() == obstacle)
+						return new BoardPosition(i, j);
 				}
-			}
-		}
 		return null;
 	}
 }
